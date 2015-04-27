@@ -1,0 +1,173 @@
+15. - Activity Lifecycle
+	  -onCreate/onRestart
+	  -onStart
+	  -onResume
+	  -onPause
+	  -onStop
+	  -onDestroy
+16. - Setting a fixed screen orientation
+	<activity 
+		android:screenOrientation="Landscape"
+
+17. - Handling a dynamic screen orientation
+	XML:
+	 <activity 
+		andoid:configChanges="orientation|screenSize"
+    JAVA:
+    	public void onConfigurationChanged(Configuration newConfig){
+    	   super.onConfigurationChanged(newConfig);
+    	   if(newConfig.orientation==Configuration.LANDSCAPE){
+    	   		//configuration changed to landscape
+    	   }
+    	}
+18. - Creating onClick EventHandlers With XML
+       XML:
+		<Button
+			...
+			android:onClick = "function_on_mainActivity"
+       JAVA:
+         public void function_on_mainActivity(View view){
+         	if(view.getId() == R.id.buttonWeWant){
+         		//a specific button was clicked
+         	}
+         }
+19.
+	- Creating onClick EventHandlers With JAVA
+		JAVA:
+			public class MainActivity Exends Avticity implements onClickListener
+				Button btn;
+				public void onCreate(){
+					...
+					btn = (Button) findViewById(R.id.buttonWeNeed);
+					btn.setOnClickListener(this);
+				}
+				public void onClick(View v){
+					//This is called whenever btn is clicked. Recommended to specify like #18
+				}
+
+20.  - Creating onClick EventHandler With Anonymous Inner Class
+    	JAVA:
+    		button.setOnClickListener(new onClickListener(){
+					public void onClick(View v){
+							//stuff happends
+					}
+			});
+		
+22. - Saving Instance States
+	JAVA:
+		onSaveInstanceState(Bundle out){
+			super.onSaveInstanceState(); //save Android Variables
+			out.putString("variable1","value");
+			out.putInt("variabel2", 2);
+		}
+		onRestoreInstanceState(Bundle in){
+		    super.onRestoreInstanceState(); //restore Android Variables
+			String var1 = in.getInt("variable1");
+			int var2= in.getString("variable2");
+		}
+
+23.
+	-Intents (Explicit)
+		-Activities - Stuff the user sees and interacts with
+		-Services - Stuff that runs in the background(still on main thread though), used for doing tasks the 			 users cannot see. Like downloading a file. Started by activity, but runs independantly 			from the activity(like fork). Can run even if activity is killed.
+		-Broadcast Recievers - Sleeps until woken up to do a task.
+		-Intent - Messenger that responds to messages.
+				  -Can be used to start new Activities, Services or Broadcasters. 
+
+		2 ways of implementing intents to activate Activities:
+		
+		Intent i = new Intent(this,ActivityB.class);
+		startActivity(i);
+
+		Intent i = new Intent();
+		i.setClassName("com.app", "com.app.ActivityB");
+		startActivity(i);
+
+		NOTE: You must declaire your activity in the Manifest.xml
+       <application
+       		...>
+			<activity
+	            android:name=".MainActivity"
+	           	...
+	        </activity>
+	        <activity
+	            android:name=".ActivityB"
+	            ...
+	        </activity>
+24.
+	- Intents(Implicit)
+		JAVA:
+			Intent i=null, chooser = null;
+			i = new Intent(android.content.Intent.ACTION_VIEW);
+			i.setData(Uri.parse("geo:19.067,72.8777"));
+			chooser = Intent.createChooser(i,"Launch Map");
+			startActivity(chooser);
+
+25. Intent to launch google play
+			i.setData(Uri.parse("market://details?id=app"));
+
+26.	Pull picture files from SD Card
+			File pictures = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+27. Toast
+		Toast toast = Toast.makeText(Context c, CharSequence Text, int duration);
+	Duration: Toast.LENGTH_SHORT or Toast.LENGTH_LONG
+	After creating it display it 
+		toast.show();
+	You can set the position of the alert using gravity
+		toast.setGravity(int Gravity, int xDist, int yDist);
+	Make it follow a custom layout
+		LayoutInflater lin = getLayoutInflator();
+		View view =lin.inflate(R.layout.toast_layout,(ViewGroup)findViewById(R.id.lin_layout));
+		toast.setView(view);
+		toast.show();
+
+30. Layout Weight
+	XML:
+		android:layout_weight:1 //extends relative to the layout orientation, and is ratiod on by other elements within the layout.
+31.
+	Layout Gravity
+	android:layout_gravity //sets the location of the layout
+	android:gravity //sets the location of the content within the layout
+
+35. Setting up LinearLayouts in Java Code
+	LinearLayout ll;
+	TextView t;
+	...
+	onCreate(){
+		...
+		ll = new LinearLayout(this);
+		t = new TextView(this);
+		LayoutParams dimensions = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCHPARENT);
+		ll.setLayoutParams(dimensions);
+		ll.setOrientation(LinearLayout.VERTICAL);
+		t.setText("Hello");
+		ll.addView(t);
+		setContentView(ll);	
+
+40.	Notes:
+		When placing layout_weight make sure to set the associated width/height to 0dp for optimization reasons.
+
+		//use layout_margins to add margins
+		layout_margin_left
+		layout_margin_right
+		layout_margin_top
+		layout_margin_bottom
+
+48. Styles:
+		//Navigate to Values>Style.xml
+		//Then add your style
+			<style name="myStyle">
+				<item name="android:textColor">#fff</item>
+				<item name="android:background">#444</item>
+				<item name="android:textSize">25sp</item>		
+			</style>
+		//Then add the style to a xml element
+			<Button
+				style="@style/myStyle"
+			/>
+
+50. Padding
+
+
+Reminder: Do Math HW
